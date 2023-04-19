@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <style>
+    body {
+	background-color: #f5f5f5; /* Default day mode background color */
+	color: #333; /* Default day mode text color */
+	height: 100vh;
+    }
+
+    #camera-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    #camera-btn {
+        background-color: #333; /* Default button background color */
+        color: #fff; /* Default button text color */
+        font-size: 2em;
+        padding: 0.5em 1em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    #camera-btn:hover {
+        transition : 2s;
+        background-color: #fff; /* Button background color on hover */
+        color: #333; /* Button text color on hover */
+    }
+
+    .night-mode {
+        background-color: #333; /* Night mode background color */
+        color: #f5f5f5; /* Night mode text color */
+    }
+
+    .night-mode #camera-btn {
+        background-color: #f5f5f5; /* Button background color in night mode */
+        color: #333; /* Button text color in night mode */
+    }
+
+
+
+    </style>
+
+
+</head>
+<body>
+<h1>Emotion : {{emotion}}</h1>
+
+    <div id="camera-container">
+
+		<ul>
+            {% for mov in movlis %}
+            <li style="padding: 5px; margin : 2px; border :1px solid black; background-color : gray;  "><a style="text-decoration:none; color:white; font-family: sans-serif; text-weight : bold;" href="https://www.google.com/search?q={{mov}} movie"> {{mov}}</a></li>
+            {% endfor %}
+        </ul>
+	</div>
+
+
+
+<script>
+
+
+
+</script>
+
+</body>
+</html>

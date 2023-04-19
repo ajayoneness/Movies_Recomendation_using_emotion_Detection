@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+
+    <style>
+    body {
+	background-color: #f5f5f5; /* Default day mode background color */
+	color: #333; /* Default day mode text color */
+	 height: 100vh;
+    }
+
+    #camera-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+
+    #camera-btn {
+        background-color: #333; /* Default button background color */
+        color: #fff; /* Default button text color */
+        font-size: 2em;
+        padding: 0.5em 1em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    #camera-btn:hover {
+        transition : 2s;
+        background-color: #fff; /* Button background color on hover */
+        color: #333; /* Button text color on hover */
+    }
+
+    .night-mode {
+        background-color: #333; /* Night mode background color */
+        color: #f5f5f5; /* Night mode text color */
+    }
+
+    .night-mode #camera-btn {
+        background-color: #f5f5f5; /* Button background color in night mode */
+        color: #333; /* Button text color in night mode */
+    }
+
+
+
+    </style>
+
+
+</head>
+<body>
+<h1>Home</h1>
+
+    <div id="camera-container">
+		<a href="{% url 'opencamera' %}" id="camera-btn">OpenMe 📷</a>
+	</div>
+
+
+
+<script>
+
+    const cameraBtn = document.getElementById("camera-btn");
+
+    function toggleNightMode() {
+        document.body.classList.toggle("night-mode");
+        cameraBtn.classList.toggle("night-mode");
+    }
+
+    cameraBtn.addEventListener("click", () => {
+        // Your camera functionality goes here...
+    });
+
+    cameraBtn.addEventListener("mouseover", () => {
+        cameraBtn.style.transform = "scale(1.1)";
+    });
+
+    cameraBtn.addEventListener("mouseout", () => {
+        cameraBtn.style.transform = "scale(1)";
+    });
+
+    window.addEventListener("load", () => {
+        const isNightMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        if (isNightMode) {
+            toggleNightMode();
+        }
+    });
+
+
+</script>
+
+</body>
+</html>
