@@ -7,7 +7,9 @@ from collections import Counter
 
 
 
-#function to search on google
+
+
+
 def search_on_google(query):
     search_url = "https://www.google.com/search?q="
     query = query.replace(" ", "+")
@@ -15,28 +17,18 @@ def search_on_google(query):
     webbrowser.open(url)
 
 
-
-
-# Load face detector
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
-# Load emotion detection model
-emotion_model = DeepFace.build_model('Emotion')
-
-# Start webcam
-cap = cv2.VideoCapture(0)  # Use 0 for the default webcam
-
-# Define emotion labels
-emotion_labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
-
-
-
 def home(request):
     return render(request,'home.html')
 
+
+def about(request):
+    return render(request,'about.html')
+
+def contact(request):
+    return render(request,'contact.html')
+
+
 def moviesList(request,emotion):
-
-
     if emotion == "angry":
         movlis =["Borat: Cultural Learnings of America for Make Benefit Glorious Nation of Kazakhstan",    "The Hangover",    "Bridesmaids",    "This Is Spinal Tap",    "Airplane!",    "The Princess Bride",    "The Grand Budapest Hotel",    "Dumb and Dumber",    "Groundhog Day",    "Anchorman: The Legend of Ron Burgundy"]
 
@@ -53,7 +45,7 @@ def moviesList(request,emotion):
 
 
     elif emotion == "happy":
-        movlis = [    "The Shining",    "The Exorcist",    "Halloween",    "A Nightmare on Elm Street",    "The Texas Chainsaw Massacre",    "Psycho",    "Rosemary's Baby",    "Hereditary",    "Get Out",    "The Conjuring"]
+        movlis = [    "The Shining",    "The Exorcist",    "Halloween",    "A Nightmare on Elm Street",    "The Texas Chainsaw Massacre",    "Psycho",    "Rosemary's Baby",    "Hereditary",    "Get Out",    "the American Pie"]
 
 
     elif emotion == "surprise":
@@ -68,60 +60,79 @@ def moviesList(request,emotion):
 
 
 def opencamera(request):
-    num = 0
-    emotion_list = []
-    while True:
-        ext = 0
-        # Capture frame from webcam
-        ret, frame = cap.read()
+    try:
+        # Load face detector
+        face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
-        # Convert frame to grayscale
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # Load emotion detection model
+        emotion_model = DeepFace.build_model('Emotion')
 
-        # Detect faces in the frame
-        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
-                                              flags=cv2.CASCADE_SCALE_IMAGE)
+        # Start webcam
+        cap = cv2.VideoCapture(0)  # Use 0 for the default webcam
 
-        # Loop through detected faces
-        for (x, y, w, h) in faces:
+        # Define emotion labels
+        emotion_labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
 
-            # Draw a rectangle around the face
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 4)
+        num = 0
+        emotion_list = []
+        while True:
+            ext = 0
+            # Capture frame from webcam
+            ret, frame = cap.read()
 
-            # Extract face ROI for emotion detection
-            face_roi = gray[y:y + h, x:x + w]
+            # Convert frame to grayscale
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-            # Resize face ROI for emotion model input
-            face_roi = cv2.resize(face_roi, (48, 48))
+            # Detect faces in the frame
+            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30),
+                                                  flags=cv2.CASCADE_SCALE_IMAGE)
 
-            emotion_preds = emotion_model.predict(face_roi[np.newaxis, :, :, np.newaxis])
+            # Loop through detected faces
+            for (x, y, w, h) in faces:
 
-            emotion_label = emotion_labels[np.argmax(emotion_preds)]
+                # Draw a rectangle around the face
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 4)
 
-            cv2.putText(frame, emotion_label, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+                # Extract face ROI for emotion detection
+                face_roi = gray[y:y + h, x:x + w]
 
-            if emotion_label != "neutral":
-                num = num + 1
-                emotion_list.append(emotion_label)
-                word_freq = Counter(emotion_list)
-                most_frequent_word = word_freq.most_common(1)[0][0]
-                if num > 10:
-                    # search_on_google(f"suggest me movies name if my mood is {most_frequent_word}")
-                    ext = 1
-                    print(most_frequent_word)
-                    return redirect(f"/movieslist/{most_frequent_word}")
+                # Resize face ROI for emotion model input
+                face_roi = cv2.resize(face_roi, (48, 48))
+
+                emotion_preds = emotion_model.predict(face_roi[np.newaxis, :, :, np.newaxis])
+
+                emotion_label = emotion_labels[np.argmax(emotion_preds)]
+
+                cv2.putText(frame,"", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 255, 0), 2)
+
+                if emotion_label != "neutral":
+                    num = num + 1
+                    emotion_list.append(emotion_label)
+                    word_freq = Counter(emotion_list)
+                    most_frequent_word = word_freq.most_common(1)[0][0]
+                    if num > 10:
+                        # search_on_google(f"suggest me movies name if my mood is {most_frequent_word}")
+                        ext = 1
+                        cap.release()
+                        cv2.destroyAllWindows()
+                        print(most_frequent_word)
+                        return redirect(f"/movieslist/{most_frequent_word}")
 
 
-        if ext == 1:
-            cv2.destroyAllWindows()
-            break
+            if ext == 1:
+                print("I am working Ajay Here")
 
-        cv2.imshow('Live Emotion Detection', frame)
+                #break
 
-        # Break loop if 'q' key is pressed
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            cv2.destroyAllWindows()
-            break
+
+            cv2.imshow('Live Emotion Detection', frame)
+
+            # Break loop if 'q' key is pressed
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                cv2.destroyAllWindows()
+                break
+    except:
+        return render(request,'home.html')
 
     return render(request,'home.html')
 

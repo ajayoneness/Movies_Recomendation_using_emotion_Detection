@@ -6,9 +6,9 @@
 
     <style>
     body {
-	background-color: #f5f5f5; /* Default day mode background color */
-	color: #333; /* Default day mode text color */
-	height: 100vh;
+	    background-color: #f5f5f5; /* Default day mode background color */
+	    color: #333; /* Default day mode text color */
+	    height: 100vh;
     }
 
     #camera-container {
@@ -45,25 +45,161 @@
         color: #333; /* Button text color in night mode */
     }
 
+    .mlis{
+        position : relative;
+        width :100%;
+        height:100vh;
+        background-image: url("https://wallpaperaccess.com/full/1512217.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        filter: blur(5px);
+    }
+
+    .mov{
+        padding: 7px;
+        margin : 5px;
+        background-color :rgba(0,0,0,0.7);
+        border-radius:5px;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    }
+
+    .mov:hover{
+        transition : 2s;
+        background-color : orange;
+    }
+
+    .butn {
+
+
+
+          border: none; /* Remove the border */
+          padding-bottom : 40px;
+          padding-top : -10px;
+          cursor: pointer; /* Add cursor */
+          animation: blink 1s linear infinite; /* Add blinking animation */
+           font-size:200px;
+           background-color:orange;
+           border-top-left-radius:50px;
+           border-bottom-right-radius:50px;
+           border-top-right-radius:10px;
+           border-bottom-left-radius:10px;
+           font-weight:600;
+           text-decoration : none;
+           margin-top:100%;
+           margin-left:50%;
+           box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+        }
+
+        @keyframes blink {
+           0% {
+              box-shadow : 0px 0px 50px yellow;
+              border : 2px solid yellow;
+              color: whites;
+              background-color : yellow;
+            }
+            25% {
+              box-shadow : 0px 0px 50px red;
+              border : 2px solid red;
+              color: white;
+              background-color : red;
+            }
+            50% {
+              box-shadow : 0px 0px 50px orange;
+              border : 2px solid orange;
+              color: white;
+              background-color : orange;
+            }
+            75% {
+              box-shadow : 0px 0px 50px blue;
+              border : 2px solid blue;
+              color: white;
+              background-color : blue;
+            }
+            100%{
+              box-shadow : 0px 0px 50px deepskyblue;
+              border : 2px solid deepskyblue;
+              color: white;
+              background-color : deepskyblue;
+            }
+        }
 
 
     </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 
 </head>
 <body>
-<h1>Emotion : {{emotion}}</h1>
-
-    <div id="camera-container">
-
-		<ul>
-            {% for mov in movlis %}
-            <li style="padding: 5px; margin : 2px; border :1px solid black; background-color : gray;  "><a style="text-decoration:none; color:white; font-family: sans-serif; text-weight : bold;" href="https://www.google.com/search?q={{mov}} movie"> {{mov}}</a></li>
-            {% endfor %}
-        </ul>
-	</div>
 
 
+<!--navigation bar-->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}">Emotion is EveryThing</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'about' %}">AboutUs</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'contact' %}">ContactUss</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="mlis">
+</div>
+<div class="ak" style="position : relative; top: -99%;">
+    <h1 style="color : white; padding:10px; background-color:rgba(0,0,0,0.5);">Emotion : {{emotion}}</h1>
+
+
+
+<div class="row">
+
+    <div class="col">
+            <a href="{% url 'opencamera' %}" class="butn" >📷</a>
+    </div>
+
+    <div class="col">
+        <div id="camera-container">
+            <ul>
+                {% for mov in movlis %}
+                <li class ="mov"><a style="text-decoration:none; color:white; font-family: sans-serif; text-weight : bold;" href="https://www.imdb.com/find?q={{mov}}&ref_=nv_sr_sm"> {{mov}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
 <script>
 
